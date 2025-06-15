@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/data/img/favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <title>Smart Home Dashboard</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(at center, #3d787e, #08152b);
+      color: #defed3;
+      height: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    * {
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, input[type="checkbox"], input[type="range"] {
+        outline: none;
+    }
+
+    .disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 32rem;
+      min-height: 90vh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 16px;
+      box-sizing: border-box;
+      justify-content: space-between;
+    }
+    .card {
+      background-color: #1a2238;
+      border-radius: 20px;
+      padding: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+
+      backdrop-filter: blur(11px) saturate(200%);
+        -webkit-backdrop-filter: blur(11px) saturate(200%);
+        background-color: rgba(4, 9, 16, 0.74);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.125);
+    }
+
+
+
+
+  .header {
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #bbc2d400;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .userIcon {
+    margin-top: -0.6rem;
+    width: 2.3rem;
+    cursor: pointer;
+  }
+
+  .userWrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .userMenu {
+    display: none;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    min-width: 15rem;
+    padding: 1rem 0.5rem;
+
+    backdrop-filter: blur(11px) saturate(200%);
+    -webkit-backdrop-filter: blur(11px) saturate(200%);
+    background-color: rgba(10, 16, 27, 0.66);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+  }
+
+  .userMenu button {
+    width: 80%;
+    margin: 0.5rem;
+    padding: 0.3rem;
+    background-color: #131e31;
+    color: #defed3;
+    border: none;
+    border-radius: 1rem;
+    text-align: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .userMenu button:hover {
+    background-color: #feffa7e6;
+    color: #03262a;
+    box-shadow: 0 0 10px 3px rgba(255, 255, 167, 0.897); /* Blue glow */
+  }
+
+  #logout{
+    background-color: #e1e2b1;
+    color: #22442f;
+    font-weight: bold;
+  }
+  #logout:hover{
+    background-color: #fcff67;
+    color: #032a12;
+    box-shadow: 0 0 10px 3px rgba(255, 255, 125, 0.897); /* Blue glow */
+  }
+
+
+
+
+
+
+
+
+    .header {
+      background-color: #bbc2d400;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header p{
+      margin: 0;
+      padding: 0 0.7rem 0.7rem 0.2rem;
+      font-size: clamp(1.1rem,1vw,1.3);
+    }
+    .userName {
+        font-size: clamp(1.3rem,1vw,1.5rem);
+        font-weight: bold;
+    }
+
+    .status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 8px;
+
+        backdrop-filter: blur(10px) saturate(200%);
+        -webkit-backdrop-filter: blur(10px) saturate(200%);
+        background-color: rgba(2, 100, 50, 0.114);
+        border-radius: 12px;
+        border: 0px solid rgba(255, 255, 255, 0.125);
+    }
+    .status div {
+      flex: 1;
+      min-width: 100px;
+      text-align: center;
+      font-size: 0.85em;
+    }
+
+    .humidity{
+        flex: 6;
+        padding-left: 2rem;
+        margin: 0;
+        padding-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align items to the left */
+        text-align: left; 
+    }
+    .weatherIcon{
+        margin: -2rem 0 0 1rem;
+        width: 5rem;
+        -webkit-filter: drop-shadow(0.7rem -0.7rem 1.2rem rgba(240, 244, 113, 0.556));
+    }
+    .humidityText{
+        margin: 0;
+        font-size: 1rem;
+        font-weight: normal;
+    }
+    .humidityValue{
+        font-weight: bold;
+    }
+    .HIText{
+        margin: 0;
+        font-size: 0.8rem;
+        color: #a5d8e4a3;
+        font-weight: normal;
+    }
+    .HIValue{
+        font-weight: bold;
+    }
+    .temperature{
+        flex: 4;
+        margin-top: -1rem;
+        margin-right: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* Align items to the left */
+        text-align: left; 
+    }
+    .temperatureText{
+        margin: 0;
+        font-size: 3.5rem;
+        font-weight: bold;
+    }
+    .temperatureValue{
+      background: linear-gradient(270deg, #fffa75, #69fa5b, #19f6e7, #dc03d5);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: smoothHueCycle 10s ease-in-out infinite;
+    }
+    @keyframes smoothHueCycle {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+
+
+    .feelsLike{
+        color: rgba(197, 222, 245, 0.621);
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: normal;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .control-item {
+      display: flex;
+      background-color: #154653;
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+      flex: 1 1 auto; /* grow, shrink, basis */
+      min-width: 0;   /* important to prevent overflow */
+    }
+    .control-logo{
+        margin: auto;
+        margin-left: 0.5rem;
+        flex: 2;
+        text-align: center;
+        justify-content: center;
+    }
+    .control-logo img{
+        width: clamp(1.3rem, 1vw, 1.5rem);;
+        -webkit-filter: drop-shadow(0rem 0rem 0.9rem rgb(224, 243, 82));
+    }
+    .control-item p {
+      flex: 6;
+      padding-left: 0.5rem;
+      text-align: left;
+      justify-content: center;
+      
+    }
+    .control-title{
+        margin: 0;
+        padding: 0;
+        color: rgb(235, 246, 255);
+        font-size: clamp(0.8rem, 1vw, 1.2rem);
+        font-weight: bold;
+    }
+    .control-title small{
+        color: rgba(161, 211, 255, 0.595);
+        font-size: clamp(0.55rem, 1vw, 0.8rem);
+        font-weight: normal;
+    }
+    
+
+
+    .slider-container {
+      width: 98%;
+      padding: 0.5rem 0;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 12px; /* control track height */
+      background: transparent; /* transparent to use custom track */
+      cursor: pointer;
+    }
+
+    /* Track: Chrome, Safari, Edge */
+    .slider::-webkit-slider-runnable-track {
+      height: 12px;
+      background: linear-gradient(to right, #6ddaf9, #d3a901);
+      border-radius: 6px;
+      box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Thumb: Chrome, Safari, Edge */
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #00f2ff;
+      box-shadow: 0 0 10px #50ffff;
+      margin-top: -4px; /* center thumb on track */
+      transition: 0.2s ease;
+    }
+
+    /* Hover effect */
+    .slider:hover::-webkit-slider-thumb {
+      box-shadow: 0 0 15px #00c6ff;
+    }
+
+    /* Firefox */
+    .slider::-moz-range-track {
+      height: 12px;
+      background: linear-gradient(to right,#f8dd58, #0087b8 );
+      border-radius: 6px;
+      box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    }
+    /* Track: Chrome, Safari, Edge */
+    .slider::-webkit-slider-runnable-track {
+      height: 12px;
+      background: linear-gradient(to right,#f8dd58, #0087b8 );
+      border-radius: 6px;
+      box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .slider::-moz-range-thumb {
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #0072ff;
+      box-shadow: 0 0 8px #0072ff;
+      transition: 0.2s ease;
+    }
+    /*sliderbrightness*/
+    .slider2 {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 12px; /* control track height */
+      background: transparent; /* transparent to use custom track */
+      cursor: pointer;
+    }
+
+    
+    .slider2::-webkit-slider-runnable-track {
+      height: 12px;
+      background: linear-gradient(to right,#423f06, #f9f76d );
+      border-radius: 6px;
+      box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Thumb: Chrome, Safari, Edge */
+    .slider2::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 1.4rem;
+      width: 1.4rem;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #fff700;
+      box-shadow: 0 0 10px #fff759;
+      margin-top: -4px; /* center thumb on track */
+      transition: 0.2s ease;
+    }
+
+    /* Hover effect */
+    .slider2:hover::-webkit-slider-thumb {
+      box-shadow: 0 0 15px #fff700;
+    }
+
+    /* Firefox */
+    .slider2::-moz-range-track {
+      height: 12px;
+      background: linear-gradient(to right,#423f06, #f9f76d );
+      border-radius: 6px;
+    }
+
+    .slider2::-moz-range-thumb {
+      height: 1.4rem;
+      width: 1.4rem;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #fff700;
+      box-shadow: 0 0 10px #fff759;
+      transition: 0.2s ease;
+    }
+
+
+
+
+    .select-auto{
+        display: flex;
+    }
+    .icon-select {
+      flex: 6;
+      display: flex;
+      gap: clamp(0.7rem, 1vw, 0.9rem);
+      justify-content: left;
+      align-items: center;
+    }
+
+    .icon-option {
+      display: flex;             
+      align-items: center;          
+      justify-content: center;  
+      padding: 0.3rem;
+      width: clamp(1.4rem, 1vw, 1.8rem);
+      height: clamp(1.4rem, 1vw, 1.8rem);
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: #232b39;
+      transition: 0.3s;
+      border: 2px solid transparent;
+    }
+    .icon-option img{
+        width: 1.5rem;
+        height: 1.5rem;
+        padding: 0.2rem;
+        -webkit-filter: drop-shadow(0rem 0rem 0.5rem rgb(59, 246, 243));
+    }
+
+    .icon-option:hover {
+      background-color: #4c5a6e;
+    }
+
+    .icon-option.selected {
+      border-color: #64f8f1;
+      box-shadow: 0 0 1rem #49c3ec;
+      background-color: #121923;
+    }
+
+
+
+    .icon-option2 {
+      display: flex;             
+      align-items: center;          
+      justify-content: center;  
+      padding: 0.3rem;
+      width: clamp(1.4rem, 1vw, 1.8rem);
+      height: clamp(1.4rem, 1vw, 1.8rem);
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: #232b39;
+      transition: 0.3s;
+      border: 2px solid transparent;
+    }
+    .icon-option2 img{
+        width: 1.5rem;
+        height: 1.5rem;
+        padding: 0.2rem;
+        -webkit-filter: drop-shadow(0rem 0rem 0.5rem rgb(255, 247, 87));
+    }
+
+    .icon-option2:hover {
+      background-color: #6e6b4c;
+    }
+
+    .icon-option2.selected {
+      border-color: #faff9b;
+      box-shadow: 0 0 1rem #fffd7c;
+      background-color: #121923;
+    }
+
+
+    .auto-switch{
+        display: flex;
+        flex: 3;
+        justify-content: flex-end; 
+    }
+    .auto-switch .toggle-switch{
+        margin-left: 0.5rem;
+    }
+    .autoText{
+        display: flex;
+        font-size: clamp(0.8rem, 1vw, 1.2rem);
+        align-items: center;     /* Vertically center */
+        justify-content: center; /* Horizontally center */
+        text-align: center;
+        color: rgba(222, 255, 255, 0.158);
+    }
+    .dropdown, select {
+      background-color: #1f2e4d;
+      color: white;
+      padding: 6px;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      font-size: 0.85em;
+    }
+    .toggle-switch {
+        margin: auto;
+        margin-right: 0.2rem;
+        position: relative;
+        display: inline-block;
+        width: 2.8rem;
+        height: 1.4rem;
+        align-items: end;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      flex: 2;
+      text-align: center;
+      justify-content: center;
+    }
+    .slider-toggle {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0.09rem;
+      right: 0;
+      bottom: 1px;
+      background-color: #555;
+      transition: 0.4s;
+      border-radius: 20px;
+    }
+    .slider-toggle:before {
+      position: absolute;
+      content: "";
+      height: 1.1rem;
+      width: 1.1rem;
+      left: 0.11rem;
+      bottom: 0.11rem;
+      background-color: rgb(232, 253, 249);
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    .toggle-switch input:checked + .slider-toggle {
+      background-color: #2bc3a7;
+    }
+    .toggle-switch input:checked + .slider-toggle:before {
+      transform: translateX(1.4rem);
+    }
+
+    /* Updated hue slider styles */
+
+    .color-bar{
+        margin: 0.5rem 0;
+        padding: 0.1rem 0;
+    }
+    .color-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 2rem;
+      border-radius: 8px;
+      background: linear-gradient(
+        to right,
+        hsl(0, 100%, 50%),
+        hsl(60, 100%, 50%),
+        hsl(120, 100%, 50%),
+        hsl(180, 100%, 50%),
+        hsl(240, 100%, 50%),
+        hsl(300, 100%, 50%),
+        hsl(360, 100%, 50%)
+      );
+      cursor: pointer;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      position: relative;
+    }
+
+    .color-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 2px solid white;
+      background-color: hsl(0, 100%, 50%);
+      cursor: pointer;
+      margin-top: 0; /* center thumb vertically */
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      transition: background-color 0.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .color-slider::-moz-range-thumb {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 2px solid white;
+      background-color: hsl(0, 100%, 50%);
+      cursor: pointer;
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      transition: background-color 0.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hex-display {
+      text-align: right;
+      font-size: 0.75em;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+      user-select: none;
+      font-family: monospace;
+      font-weight: 600;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: clamp(0.6em,1vw,0.7rem);
+      color: rgba(255,255,255,0.6);
+      margin-top: -4px;
+    }
+    .card h3{
+        font-size: clamp(0.75rem, 1vw, 1rem);
+        margin: 0 0 0.5rem 0 ;
+        padding: 0;
+    }
+
+    /* Debug mode */
+    #espConsole {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 16rem;
+      height: auto;
+      background: rgba(0, 0, 0, 0.677);
+      color: #00ff00;
+      font-family: monospace;
+      font-size: 0.8rem;
+      padding: 0.7rem;
+      z-index: 9999;
+      overflow: hidden;
+      pointer-events: none; /* Let clicks pass through */
+    }
+
+    #deviceInfo {
+      overflow: hidden;
+    }
+    #deviceInfo p{
+      margin: 0.2rem;
+      padding: 0;
+    }
+    .itempInfo{
+      color: rgb(255, 29, 18);
+    }
+    .uptimeInfo{
+      color: rgb(231, 255, 18);
+    }
+    .cpuInfo{
+      color: #00f2ff;
+    }
+
+    #serialMonitor {
+    height: 150px;
+    overflow-y: scroll;
+    padding: 5px;
+    white-space: pre-wrap;
+    color: #00ff00;
+    font-family: monospace;
+    border-top: 1px solid #555;
+    margin-top: 10px;
+    scrollbar-width: none; /* Firefox */
+}
+#serialMonitor::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+    #Developer{
+      margin-top: auto;
+      border-top: 1px solid #555;
+      border-bottom: 1px solid #555;
+      display: flex;
+      justify-content: center;
+      color: #ff870f;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="espConsole" style="display: none;">
+    <div id="deviceInfo">
+      <p class="deviceInfo">Device Name: <span id="deviceValue">270kb</span></p>
+      <p class="ipInfo">Device IP: <span id="ipValue">192.168.4.1</span></p>
+      <p class="ramInfo">Ram: <span id="ramValue">270kb</span></p>
+      <p class="FilesysInfo">FileSystem: LittleFS</p>
+      <p class="storageInfo">Storage: <span id="remainingSpace">240kb</span>/2048kb (Used/T)</p>
+      <p class="cpuInfo">CPU Freq: <span id="cpuValue">240</span>mHz</p>
+      <p class="itempInfo">CPU Temp: <span id="itempValue">52</span>°C</p>
+      <p class="uptimeInfo">Uptime: <span id="uptimeValue">00hrs 01mins 40sec</span></p>
+     
+    </div>
+    <br>
+    <div id="Developer"> Developed by: <span id="DevName"> @MayBorg.</span></div>
+  </div>
+
+    <section id="Controls">
+
+        <div class="container">
+          <div class="header">
+            <p>Welcome, <span class="userName">Mayur</span></p>
+            <div class="userWrapper">
+              <img class="userIcon" src="/data/img/user-profile.png" alt="User Icon" />
+              <div class="userMenu" id="userMenu">
+                <button onclick="showInfo()">Debug Mode</button>
+                <button onclick="changePassword()">Change Password</button>
+                <button id="logout" onclick="logout()">Log Out</button>
+              </div>
+            </div>
+          </div>
+        
+            <div class="card status">
+              <div class="humidity">
+                <img class="weatherIcon" src="/data/img/weather.png" alt="Humidity" />
+                <p class="humidityText">Humidity: <span class="humidityValue">60%</span></p>
+                <p class="HIText">Dewpoint : <span class="dewpoint">40%</span></p>
+              </div>
+              <div class="temperature">
+                <p class="temperatureText"><span class="temperatureValue">23</span><sup style="font-size: 1.5rem; font-weight: normal;">°C</sup></p>
+                <p class="feelsLike">Feels like 27°C</p>
+              </div>
+            </div>
+        
+            <div class="card">
+              <h3>Controls</h3>
+              <div class="controls">
+                <div class="control-item">
+                    <div class="control-logo"><img src="/data/img/smart-tv.png" alt="TV"></div>
+                    <p class="control-title">T.V.<br><small>Entertainment</small></p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" />
+                        <span class="slider-toggle"></span>
+                    </label>
+                </div>
+                <div class="control-item">
+                    <div class="control-logo"><img src="/data/img/idea.png" alt="bulb"></div>
+                    <p class="control-title">Light-1<br><small>Ambience</small></p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" />
+                        <span class="slider-toggle"></span>
+                    </label>
+                </div>
+                <div class="control-item">
+                    <div class="control-logo"><img src="/data/img/computer.png" alt="computer"></div>
+                    <p class="control-title">Desktop<br><small>WorkSpace</small></p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" />
+                        <span class="slider-toggle"></span>
+                    </label>
+                </div>
+                <div class="control-item">
+                    <div class="control-logo"><img src="/data/img/idea.png" alt="bulb"></div>
+                    <p class="control-title">Light-2<br><small>Ambience</small></p>
+                    <label class="toggle-switch">
+                        <input type="checkbox" />
+                        <span class="slider-toggle"></span>
+                    </label>
+                </div>
+              </div>
+            </div>
+        
+            <div class="card">
+              <h3 class="h33">Air Condition</h3>
+              <div class="select-auto">
+                <div class="icon-select">
+                    <div class="icon-option selected" data-mode="hot" title="hot"><img src="/data/img/heat.png" alt="hot"></div>
+                    <div class="icon-option" data-mode="normal" title="normal"><img src="/data/img/fast.png" alt="fast"></div>
+                    <div class="icon-option" data-mode="cool" title="Cool"><img src="/data/img/clean.png" alt="faster"></div>
+                    <div class="icon-option" data-mode="cold" title="Cold"><img src="/data/img/snowflake.png" alt="faster"></div>
+                </div>
+                <div class="auto-switch">
+                    <div class="autoText">Auto</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" />
+                        <span class="slider-toggle"></span>
+                    </label>
+                </div>
+              </div>
+              <div class="slider-container">
+                <input id="fanSpeed" type="range" class="slider" min="0" max="100" value="50" />
+              </div>
+              <div class="slider-labels">
+                <span>Warm</span>
+                <span>Temperature</span>
+                <span>Cold</span>
+              </div>
+            </div>
+        
+            <div class="card">
+              <h3 class="h33">Ambience</h3>
+              <div class="select-auto">
+                <div class="icon-select">
+                    <div class="icon-option2 selected" data-mode="white" title="white"><img src="/data/img/white.png" alt="white"></div>
+                    <div class="icon-option2" data-mode="breathing" title="breathing"><img src="/img/breate.png" alt="breathe"></div>
+                    <div class="icon-option2" data-mode="cycle" title="cycle"><img src="/data/img/cycle.png" alt="cycle"></div>
+                    <div class="icon-option2" data-mode="warm" title="Warm"><img src="/data/img/sun.png" alt="warm"></div>
+                    <div class="icon-option2" data-mode="cool" title="Cool"><img src="/data/img/moon.png" alt="cool"></div>
+                </div>
+                <div class="auto-switch">
+                    <div class="autoText">Auto</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" />
+                        <span class="slider-toggle"></span>
+                    </label>
+                </div>
+              </div>
+              <div class="color-bar">
+                <input type="range" min="0" max="360" value="0" class="color-slider" id="colorHueSlider" />
+                <div class="hex-display" >Colour: <span id="hueHexDisplay"></span></div>
+              </div>
+              <div class="slider-container">
+                <input id="brightness" type="range" class="slider2" min="0" max="100" value="50" />
+              </div>
+              <div class="slider-labels">
+                <span>0%</span>
+                <span>Brightness</span>
+                <span>100%</span>
+              </div>
+            </div>
+          </div>
+    </section>
+
+
+    <script src="/sha256.min.js">//SHA 256 computing</script>
+    <script>
+
+      let challenge ;
+
+      //SHA Handler
+      function getSHA256(input) {
+        const safeInput = (input === null || input === undefined) ? "" : input;
+        return sha256(safeInput); // This comes from sha256.min.js
+      }
+
+      //Get UUID
+      function getCookie(name) {
+        let uuid = document.cookie.split('; ').find(row => row.startsWith('UUID='))?.split('=')[1];
+        console.log(uuid);
+        return uuid;
+      }
+
+        // WebSocket Implementation
+        let socket = new WebSocket("ws://" + location.hostname + "/ws");
+        let username = "User";
+
+        socket.onopen = () => {
+          console.log("✅ WebSocket connected.");
+        };
+
+
+        function calculateFeelsLike(tempC, humidity) {
+          let feelsLike = tempC;
+
+          if (tempC >= 26) {
+            // Rothfusz heat index approximation (temp in °C, humidity in %)
+            const t = tempC, h = humidity;
+            feelsLike = -8.7847 + 1.6114*t + 2.3385*h - 0.1461*t*h
+                      - 0.0123*t*t - 0.0164*h*h + 0.0022*t*t*h
+                      + 0.0007*t*h*h - 0.00000358*t*t*h*h;
+          } else {
+            // Simple "chill" adjustment for cold
+            feelsLike = tempC - ((humidity - 50) / 10); // subtracts or adds depending on humidity
+          }
+        
+          return `Feels like ${Math.round(feelsLike)}°C`;
+        }
+
+        function dewPoint(tempC, humidity) {
+          const a = 17.27;
+          const b = 237.7;
+          const alpha = ((a * tempC) / (b + tempC)) + Math.log(humidity / 100);
+          return Math.round((b * alpha) / (a - alpha));
+        }
+        function appendSerialLine(line) {
+          const monitor = document.getElementById("serialMonitor");
+                
+          // Append new line
+          monitor.textContent += line + "\n";
+                
+          // Auto-scroll to bottom
+          monitor.scrollTop = monitor.scrollHeight;
+        }
+
+        //Esp Message Handler
+        function handleESPMessage(message) {
+          try {
+            const data = JSON.parse(message);
+          
+            if (data.Type === "Authenticated") {
+              const uuid = data.Key;
+              const info = data.Value;
+            
+              // Save UUID as a cookie (expires in 30 days)
+              document.cookie = `UUID=${uuid}; path=/; max-age=${30 * 24 * 60 * 60}`;
+            
+              // Optionally show a message
+              console.log(info);
+            
+              // Redirect or update UI
+              window.location.href = "/control.html";
+            
+            } else if(data.Type === "NotAuthenticated") {
+              console.warn(data.Value);
+            } else if(data.Type === "Verified"){
+              username = data.Key;
+              document.querySelector('.userName').innerText = username;
+              console.log("Username: "+username);
+            } else if(data.Type === "Challenge"){
+              challenge = data.Key;
+              console.log(data.Key);
+              combine = getCookie("UUID") + challenge;
+              let UUIDhash = getSHA256(combine);
+                socket.send(JSON.stringify({
+                Type: "Auth",
+                Key: "UUID",         // username optional
+                Value: UUIDhash
+                }));
+              
+            } else if(data.Type === "temp"){
+              //logic to be implemented later
+              temperature = parseFloat(data.Key);
+              humidity = parseFloat(data.Value);
+              feelsLike = calculateFeelsLike(temperature, humidity);
+              Dewpoint = dewPoint(temperature,humidity);
+      
+
+              document.querySelector('.temperatureValue').innerText = parseFloat(temperature.toFixed(1));
+              document.querySelector('.humidityValue').innerText = parseFloat(humidity.toFixed(1)) + "%";
+              document.querySelector('.feelsLike').innerText = feelsLike;
+              document.querySelector('.dewpoint').innerText = Dewpoint;
+            } else if(data.Type ==="info"){
+              document.getElementById("deviceValue").textContent = data.device;
+              document.getElementById("ramValue").textContent = data.ram;
+              document.getElementById("cpuValue").textContent = data.cpu;
+              document.getElementById("itempValue").textContent = data.temp;
+              document.getElementById("uptimeValue").textContent = data.uptime;
+              document.getElementById("remainingSpace").textContent = data.fs_used + "Kb";
+              document.getElementById("ipValue").textContent = `${data.esp_ip};`;
+            } else{
+              //will modify for later use
+            }
+          
+          } catch (err) {
+            console.error("Invalid JSON from ESP:", message, err);
+          }
+        }
+
+        socket.onmessage = (event) => {
+          handleESPMessage(event.data);
+        };
+
+        socket.onerror = (err) => console.error("WebSocket error:", err);
+        socket.onclose = () => console.warn("WebSocket closed.");
+        
+        
+      
+        
+        function emitControlUpdate(key , value){
+          const payload = {
+              Type:"Control",
+              Key: key,
+              Value: value
+            };
+
+            console.log("➡️ Sending to ESP32:", payload);
+            if (socket.readyState === WebSocket.OPEN) {
+              socket.send(JSON.stringify(payload));
+            } else {
+              console.error("❌ WebSocket is not open.");
+            }
+        }
+        
+        // === Utility Functions ===
+        function hslToRgb(h, s, l) {
+          const c = (1 - Math.abs(2 * l - 1)) * s;
+          const hp = h / 60;
+          const x = c * (1 - Math.abs((hp % 2) - 1));
+          let r1 = 0, g1 = 0, b1 = 0;
+      
+          if (hp >= 0 && hp < 1)      [r1, g1, b1] = [c, x, 0];
+          else if (hp < 2)            [r1, g1, b1] = [x, c, 0];
+          else if (hp < 3)            [r1, g1, b1] = [0, c, x];
+          else if (hp < 4)            [r1, g1, b1] = [0, x, c];
+          else if (hp < 5)            [r1, g1, b1] = [x, 0, c];
+          else if (hp <= 6)           [r1, g1, b1] = [c, 0, x];
+      
+          const m = l - c / 2;
+          return {
+            r: Math.round((r1 + m) * 255),
+            g: Math.round((g1 + m) * 255),
+            b: Math.round((b1 + m) * 255)
+          };
+        }
+      
+        /**
+         * Converts RGB to HEX
+         * @param {object} rgb - {r, g, b}
+         * @returns {string} HEX value
+         */
+        function rgbToHex({ r, g, b }) {
+          let colorcode = "#" + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+          return colorcode;
+        }
+      
+        // === Thumb Color Styling ===
+      
+        /**
+         * Dynamically injects thumb color styles
+         * @param {string} hex - Hex color
+         */
+        function setThumbColor(hex,rgb) {
+          let styleTag = document.getElementById('dynamicThumbStyle');
+          if (!styleTag) {
+            styleTag = document.createElement('style');
+            styleTag.id = 'dynamicThumbStyle';
+            document.head.appendChild(styleTag);
+          }
+      
+          styleTag.textContent = `
+            #colorHueSlider::-webkit-slider-thumb {
+              background-color: ${hex} !important;
+            }
+            #colorHueSlider::-moz-range-thumb {
+              background-color: ${hex} !important;
+            }
+          `;
+          function rgbToString({ r, g, b }) {
+            return `${r},${g},${b}`;
+          }
+
+          emitControlUpdate("colour", rgbToString(rgb));
+        }
+      
+        /**
+         * Updates thumb and hex preview
+         */
+        function updateThumbColor() {
+          const hue = Number(slider.value);
+          const rgb = hslToRgb(hue, 1, 0.5);
+          const hex = rgbToHex(rgb);
+      
+          hexDisplay.textContent = hex;
+          slider.style.setProperty('--thumb-color', hex);
+          setThumbColor(hex,rgb);
+        }
+      
+        // === Mode Selector Logic ===
+      
+        /**
+         * Initializes a group of selectable icons
+         * @param {string} selector - CSS selector for icon options
+         */
+        function initializeIconSelector(selector) {
+          const options = document.querySelectorAll(selector);
+          options.forEach(option => {
+            option.addEventListener('click', () => {
+              options.forEach(o => o.classList.remove('selected'));
+              option.classList.add('selected');
+              console.log(`Selected mode: ${option.dataset.mode}`);
+            });
+          });
+        }
+      
+        // === Initialization ===
+      
+        const slider = document.getElementById('colorHueSlider');
+        const hexDisplay = document.getElementById('hueHexDisplay');
+      
+        document.addEventListener('DOMContentLoaded', () => {
+          slider.addEventListener('input', updateThumbColor);
+
+          initializeIconSelector('.icon-option');   // First icon row
+          initializeIconSelector('.icon-option2');  // Second icon row
+        });
+
+
+
+
+    //getting data from the page;
+    // Log slider value on input
+      function logSlider(slider) {
+        const label = slider.id === "brightness" ? "brightness" :
+                slider.id === "fanSpeed" ? "AirCondition" : slider.id;
+
+        emitControlUpdate(label, slider.value);
+      }
+  
+      // Log toggle value on change
+      function logToggle(toggle) {
+        let label =
+        toggle.closest('.control-item')?.querySelector('.control-title')?.innerText.trim().split('\n')[0] ||
+        toggle.closest('.card')?.querySelector('.h33')?.innerText.trim() ||'UnnamedToggle';
+
+        const value = toggle.checked ? 'on' : 'off';
+        emitControlUpdate(label, value);
+      }
+  
+      // Log mode change
+      function logModeChange(option) {
+        const mode = option.dataset.mode || 'unknown';
+        const groupName = option.classList.contains('icon-option2') ? 'Ambience' : 'AirCondition';
+        emitControlUpdate(groupName, mode);
+      }
+  
+      function setupListeners() {
+        // Sliders
+        document.querySelectorAll('input[type="range"]').forEach(slider => {
+          slider.addEventListener('change', () => logSlider(slider));
+        });
+    
+        // Toggle switches
+        document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(toggle => {
+          toggle.addEventListener('change', () => logToggle(toggle));
+        });
+    
+        // Icon selectors (mode buttons)
+        document.querySelectorAll('.icon-option, .icon-option2').forEach(option => {
+          option.addEventListener('click', () => {
+            const group = option.classList.contains('icon-option2') ? '.icon-option2' : '.icon-option';
+            document.querySelectorAll(`${group}.selected`).forEach(el => el.classList.remove('selected'));
+            option.classList.add('selected');
+            logModeChange(option);
+          });
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // For each card section
+        document.querySelectorAll('.card').forEach(card => {
+          const autoToggle = card.querySelector('.auto-switch input[type="checkbox"]');
+        
+          if (autoToggle) {
+            autoToggle.addEventListener('change', () => {
+              // Find all controls inside this specific card
+              const controlsToDisable = Array.from(card.querySelectorAll(
+                '.icon-select, .icon-select2, .slider-container, .color-bar, .color-slider, .slider2, input[type="range"]'
+              ));
+            
+              controlsToDisable.forEach(el => {
+                if (autoToggle.checked) {
+                  el.classList.add('disabled');
+                } else {
+                  el.classList.remove('disabled');
+                }
+              });
+            });
+          }
+        });
+      });
+  
+      document.addEventListener('DOMContentLoaded', setupListeners);
+
+
+
+
+  const userIcon = document.querySelector('.userIcon');
+  const userMenu = document.getElementById('userMenu');
+
+  userIcon.addEventListener('click', () => {
+    userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Hide menu if clicked outside
+  window.addEventListener('click', function (e) {
+    if (!userIcon.contains(e.target) && !userMenu.contains(e.target)) {
+      userMenu.style.display = 'none';
+    }
+  });
+
+  function showInfo() {
+    alert("Debug Mode ON");
+  }
+
+  function changePassword() {
+    window.location.href = "/update.html"; 
+  }
+
+  function logout() {
+  document.cookie.split(";").forEach((cookie) => {
+    const eqPos = cookie.indexOf("=");
+    const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    // Set cookie expiry to past to delete it
+    document.cookie = name.trim() + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+  });
+
+  
+  window.location.href = "/"; 
+  }
+
+  function showInfo() {
+    const consoleDiv = document.getElementById("espConsole");
+    if (consoleDiv.style.display === "none" || consoleDiv.style.display === "") {
+      consoleDiv.style.display = "flex"; // or "block", depending on your layout
+    } else {
+      consoleDiv.style.display = "none";
+    }
+  }
+
+      </script>
+      
+</body>
+</html>
