@@ -96,11 +96,11 @@ bool verifyPassword(String userResponse, String challenge) {
 ## 🌍 Web Interface Walkthrough
 
 > *See screenshots below for better understanding*
-[WEB APP](https://mayborg121.github.io/smartHome/)
+[WEB APP](https://mayborg121.github.io/smartHome/) 👈 Click Here
 
 Smart Home Web UI 
 ### 1. **Login Page (**``**)** 
-[Login Page](https://mayborg121.github.io/smartHome/)
+[Login Page](https://mayborg121.github.io/smartHome/) 👈 Click Here
 
 - User connects to ESP hotspot `SmartHome-ESP32` (PW: `00000000`) or home Wi-Fi.
 - A random challenge string is shown.
@@ -111,7 +111,7 @@ Smart Home Web UI
 ---
 
 ### 2. **Main Control Panel (**``**)**
-[Login Page](https://mayborg121.github.io/smartHome/control.html)
+[Controls Page](https://mayborg121.github.io/smartHome/control.html) 👈 Click Here
 **Top Console:**
 
 - Device info: RAM, CPU freq, uptime, IP
