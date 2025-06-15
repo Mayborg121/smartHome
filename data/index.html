@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/dta/img/favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <title>Smart Home Login</title>
+  <style>
+    :root {
+      --primary-bg: #3d787e;
+      --secondary-bg: #08152b;
+      --text-main: #d3fafe;
+      --text-light: #ccc;
+      --input-bg: #18263cba;
+      --input-focus-bg: #1c2336;
+      --input-focus-shadow: #31fbeaaa;
+      --button-bg-start: #01b7ba;
+      --button-bg-end: #098cc8;
+      --button-shadow: rgba(3, 34, 38, 0.57);
+      --button-shadow-hover: rgba(49, 217, 251, 0.6);
+      --highlight: #21dff8;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(at center, var(--primary-bg), var(--secondary-bg));
+      color: var(--text-main);
+      height: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, input[type="checkbox"], input[type="range"], input[type="text"], input[type="password"] {
+      outline: none;
+    }
+    .bkg{
+      max-width: 100vw;
+      height: 100%;
+      background-image: url('/data/img/house2.png');
+      background-repeat: no-repeat;
+      background-position: bottom center;
+      background-size: contain; /* or cover if you want it larger */
+    }
+    #login {
+      max-width: 30rem;
+      min-height: 90vh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 16px;
+      box-sizing: border-box;
+      justify-content: space-between;
+    }
+
+    .container {
+      padding: 1.8rem;
+
+      /* border-radius: 20px;
+      backdrop-filter: blur(12px);
+      background: rgba(131, 121, 121, 0.164);
+      box-shadow: none; */
+      transition: 0.3s ease;
+    }
+
+    .logo {
+      font-size: clamp(2.1rem, 1vw, 2.5rem);
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      background: linear-gradient(270deg, #8cf2eb, #5df4db, #18a0e4, #009785);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: smoothHueCycle 10s ease-in-out infinite;
+    }
+
+    @keyframes smoothHueCycle {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+
+    .subtitle {
+      font-size: clamp(1rem, 1vw, 1.2rem);
+      color: #bbb;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+      color: var(--text-light);
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: none;
+      border-radius: 0px;
+      background-color: var(--input-bg);
+      color: #d7fcff;
+      font-size: 1em;
+      transition: box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .input-group input:focus {
+      background-color: var(--input-focus-bg);
+      box-shadow: 0 0 10px var(--input-focus-shadow);
+    }
+
+   .emoji-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    
+    font-size: 1.2rem;
+    pointer-events: none;
+    opacity: 0.8;
+    }
+
+    .emoji-icon img{
+      width: 1rem;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+    }
+
+    .buttons button {
+      padding: 0.8rem 2rem;
+      border: none;
+      border-radius: 0.8rem;
+      background: linear-gradient(135deg, rgba(155, 255, 223, 0.945), rgb(20, 159, 251));
+      color: #01333f;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+      box-shadow: 0 4px 12px var(--button-shadow);
+    }
+
+    .buttons button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 1.2rem var(--button-shadow-hover);
+    }
+
+    .forgot-password {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .forgotpwd {
+      font-size: 0.9rem;
+      color: #dbdee0ad;
+      text-decoration: underline;
+      transition: 0.3s ease-in-out;
+    }
+
+    .forgotpwd:hover {
+      color: #d2d2d2;
+    }
+
+  </style>
+</head>
+<body>
+ <section class="bkg">
+    <div id="login">
+      <div class="container">
+        <div class="logo">Smart <span>Home</span></div>
+        <div class="subtitle">Seamless Living, Smarter Control</div>
+        <form>
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Mayur">
+            <span class="emoji-icon"><img src="/dataimg/profile.png" alt="."></span>
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Abc@123!">
+            <span class="emoji-icon" id="lockIcon"><img src="/data/" alt="."></span>
+          </div>
+          <div class="buttons">
+            <button type="button">Log In</button>
+          </div>
+        </form>
+        <div class="forgot-password" ><a href="/update.html" class="forgotpwd">Update Credentials ?</a></div>
+      </div>
+    </div>
+
+ </section>
+  
+
+
+ <script src="/sha256.min.js">//SHA 256 computing</script>
+
+  <script >
+
+    let challenge;
+    //SHA Handler
+    function getSHA256(input) {
+      const safeInput = (input === null || input === undefined) ? "" : input;
+      return sha256(safeInput); // This comes from sha256.min.js
+    }
+
+    //Get UUID
+    function getCookie(name) {
+      let uuid = document.cookie.split('; ').find(row => row.startsWith('UUID='))?.split('=')[1];
+      console.log(uuid);
+      return uuid;
+    }
+
+
+    let socket = new WebSocket("ws://" + location.hostname + "/ws");
+
+    socket.onopen = () => {
+      console.log("✅ WebSocket connected.");
+    };
+    
+
+
+    //Esp Message Handler
+    function handleESPMessage(message) {
+          try {
+            const data = JSON.parse(message);
+          
+            if (data.Type === "Authenticated") {
+              const uuid = data.Key;
+              const info = data.Key;
+            
+              // Save UUID as a cookie (expires in 30 days)
+              document.cookie = `UUID=${uuid}; path=/; max-age=${30 * 24 * 60 * 60}`;
+            
+              // Optionally show a message
+              console.log(info);
+            
+              // Redirect or update UI
+              window.location.href = `/control.html`; //?${username}
+            
+            } else if(data.Type === "NotAuthenticated") {
+              console.warn(data.Value);
+              alert("Server says :"+data.Value);
+            } else if(data.Type === "Verified") {
+              username = data.Key;
+              window.location.href = `/control.html`;
+              console.warn(data.Value);
+            } else if(data.Type === "Challenge"){
+              challenge = data.Key;
+              console.log(data.Key);
+
+              if(document.cookie.split('; ').some(cookie => cookie.startsWith('UUID='))){
+                combine = getCookie("UUID") + challenge;
+                let UUIDhash = getSHA256(combine);
+                socket.send(JSON.stringify({
+                Type: "Auth",
+                Key: "UUID",         // username optional
+                Value: UUIDhash
+                }));
+                console.log("UUID Hash: " +combined);
+              } else{
+                console.log("UUID does not exist.");
+              }
+
+              
+              
+            } if(data.Type === "Data"){
+              //logic to be implemented later
+            }
+          
+          } catch (err) {
+            console.error("Invalid JSON from ESP:", message, err);
+          }
+        }
+
+    socket.onmessage = (event) => {
+      handleESPMessage(event.data);
+    };
+
+    socket.onerror = (err) => console.error("WebSocket error:", err);
+    socket.onclose = () => console.warn("WebSocket closed.");
+
+    // Attach button click listener
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginBtn = document.querySelector("button[type='button']");
+
+      loginBtn.addEventListener("click", () => {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+        const Hash = getSHA256(password + challenge);
+        const payload = {
+          Type:"Auth",
+          Key: username,
+          Value: Hash
+        };
+      
+        console.log("➡️ Sending to ESP32:", payload);
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(payload));
+        } else {
+          console.error("❌ WebSocket is not open.");
+        }
+
+        window.location.href = `/control.html`;
+      });
+    });
+
+
+
+
+
+
+    const passwordInput = document.getElementById('password');
+    const lockIcon = document.getElementById('lockIcon');
+
+    passwordInput.addEventListener('focus', () => {
+      lockIcon.style.opacity = '0';
+    });
+
+    passwordInput.addEventListener('blur', () => {
+      lockIcon.style.opacity = '0.8';
+    });
+
+
+  </script>
+
+</body>
+</html>
