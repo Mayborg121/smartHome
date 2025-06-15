@@ -212,10 +212,10 @@
             <span class="emoji-icon" id="lockIcon"><img src="https://github.com/Mayborg121/smartHome/blob/main/img/padlock.png?raw=true" alt="."></span>
           </div>
           <div class="buttons">
-            <button type="button">Log In</button>
+            <button type="button" onclick="window.location.href = `/control.html`;">Log In</button>
           </div>
         </form>
-        <div class="forgot-password" ><a href="/update.html" class="forgotpwd">Update Credentials ?</a></div>
+        <div class="forgot-password" ><a href="https://mayborg121.github.io/smartHome/update.html" class="forgotpwd">Update Credentials ?</a></div>
       </div>
     </div>
 
@@ -242,7 +242,7 @@
     }
 
 
-    let socket = new WebSocket("ws://" + location.hostname + "/ws");
+    let socket = new WebSocket("wss://" + location.hostname + "/ws");
 
     socket.onopen = () => {
       console.log("✅ WebSocket connected.");
