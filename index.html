@@ -212,7 +212,7 @@
             <span class="emoji-icon" id="lockIcon"><img src="https://github.com/Mayborg121/smartHome/blob/main/img/padlock.png?raw=true" alt="."></span>
           </div>
           <div class="buttons">
-            <button type="button" onclick="window.location.href = `/control.html`;">Log In</button>
+            <button type="button" onclick="window.location.href = `/smartHome/control.html`;">Log In</button>
           </div>
         </form>
         <div class="forgot-password" ><a href="https://mayborg121.github.io/smartHome/update.html" class="forgotpwd">Update Credentials ?</a></div>
@@ -266,14 +266,14 @@
               console.log(info);
             
               // Redirect or update UI
-              window.location.href = `/control.html`; //?${username}
+              window.location.href = `/smartHome/control.html`; //?${username}
             
             } else if(data.Type === "NotAuthenticated") {
               console.warn(data.Value);
               alert("Server says :"+data.Value);
             } else if(data.Type === "Verified") {
               username = data.Key;
-              window.location.href = `/control.html`;
+              window.location.href = `/smartHome/control.html`;
               console.warn(data.Value);
             } else if(data.Type === "Challenge"){
               challenge = data.Key;
@@ -331,7 +331,7 @@
           console.error("❌ WebSocket is not open.");
         }
 
-        window.location.href = `/control.html`;
+        window.location.href = `/smartHome/control.html`;
       });
     });
 
