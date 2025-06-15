@@ -725,7 +725,7 @@
               <img class="userIcon" src="img/user-profile.png" alt="User Icon" />
               <div class="userMenu" id="userMenu">
                 <button onclick="showInfo()">Debug Mode</button>
-                <button onclick = "window.location.href = `/update.html`;"">Change Password</button>
+                <button onclick = "window.location.href = `/smartHome/update.html`;"">Change Password</button>
                 <button id="logout" onclick = "window.location.href = `/`;">Log Out</button>
               </div>
             </div>
@@ -862,7 +862,7 @@
       }
 
         // WebSocket Implementation
-        let socket = new WebSocket("ws://" + location.hostname + "/ws");
+        let socket = new WebSocket("wss://" + location.hostname + "/ws");
         let username = "User";
 
         socket.onopen = () => {
@@ -919,7 +919,7 @@
               console.log(info);
             
               // Redirect or update UI
-              window.location.href = "/control.html";
+              window.location.href = "/smartHome/control.html";
             
             } else if(data.Type === "NotAuthenticated") {
               console.warn(data.Value);
@@ -1194,7 +1194,7 @@
   }
 
   function changePassword() {
-    window.location.href = "/update.html"; 
+    window.location.href = "/smartHome/update.html"; 
   }
 
   function logout() {
